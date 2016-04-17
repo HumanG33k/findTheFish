@@ -11,6 +11,8 @@ void Algo::algoCPU(Image picture, Image sprite)
     
     for (int h_pic = 0; h_pic < (picture.getHeight() - sprite.getMinimumHeight()); ++h_pic) 
     {
+        cout << "sprite.getMinimumHeight() : "<<sprite.getMinimumHeight()<<endl;
+        cout<<"picture.getHeight() - sprite.getMinimumHeight() : "<<picture.getHeight() - sprite.getMinimumHeight()<<endl;
         clock_t tpsLigne = clock();
         cout <<"picture.getWidth() - sprite.getMinimumWidth() : "<< (picture.getWidth() - sprite.getMinimumWidth())<<endl;
         cout << "picture.getWidth() : " <<picture.getWidth()<<endl;

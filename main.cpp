@@ -43,6 +43,8 @@ int main(int argc, char **argv)
 
         Algo::algoCPU(picture, sprite);
     }
+    cout <<"fin prog ! "<<endl;
+    return 0;
 }
 
 
