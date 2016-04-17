@@ -128,7 +128,7 @@ void Image::createMinimum()
     for (int h = h_min; h <= h_max; h += _width) 
     {
 
-        for (int w = 0; w <= x_max - x_min; ++w) 
+        for (int w = 0; w <= (x_max - x_min); w+=1) 
         {
 
             this->_minimumPicture.push_back(this->_pixels.at(h + w));
@@ -136,12 +136,12 @@ void Image::createMinimum()
         }
     }
 
-    this->_minimumWidth = x_max - x_min;
+    this->_minimumWidth = x_max - x_min+1;
     cout << "x_max" <<x_max<<endl;
     cout <<"xmin" <<x_min<<endl;
     cout <<"ymin" <<y_min<<endl;
     cout <<"ymax : " <<y_max<<endl;
-    this->_minimumHeight = y_max - y_min;
+    this->_minimumHeight = y_max - y_min+1;
     this->x_center = this->_minimumWidth / 2;
     this->y_center = this->_minimumHeight / 2;
 
