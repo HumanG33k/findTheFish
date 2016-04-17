@@ -5,10 +5,14 @@ using namespace std;
 
 Image::Image(PPMBitmap img, int l, int h, bool isSprite) : _img(img), _width(l), _height(h), _isSprite(isSprite) {
     Pixel pix(0, 0, 0);
+    
+    this->_pixels.reserve (this->getWidth()*this->getHeight());
     PPMBitmap::RGBcol col;
 
-    for (long i = 0; i < _height; i++) {
-        for (long j = 0; j < _width; j++) {
+    for (long i = 0; i < _height; i++) 
+    {
+        for (long j = 0; j < _width; j++) 
+        {
             //correction
             col = img.getPixel(i, _width - j - 1);
             pix.setr(col.r);
@@ -18,74 +22,95 @@ Image::Image(PPMBitmap img, int l, int h, bool isSprite) : _img(img), _width(l),
         }
     }
 
-    if (_isSprite) {
+    if (_isSprite) 
+    {
         this->createMinimum();
 
     }
 }
 
-int Image::getMinimumHeight() {
+int Image::getMinimumHeight() 
+{
     return this->_minimumHeight;
 }
 
-int Image::getMinimumWidth() {
+int Image::getMinimumWidth() 
+{
     return this->_minimumWidth;
 }
 
-int Image::getWidth() {
+int Image::getWidth() 
+{
     return this->_width;
 }
 
-int Image::getHeight() {
+int Image::getHeight() 
+{
     return this->_height;
 }
 
-vector<Pixel> Image::getMinimum() {
+vector<Pixel> Image::getMinimum() 
+{
     return this->_minimumPicture;
 }
 
-vector<Pixel> Image::getPixels() {
+vector<Pixel> Image::getPixels() 
+{
     return this->_pixels;
 }
 
-int Image::getXFirst() {
+int Image::getXFirst() 
+{
     return this->x_first;
 }
 
 
-
-void Image::createMinimum() {
-    int y_min = _height;
+void Image::createMinimum() 
+{
+    int y_min = this->getHeight();
     int y_max = 0;
-    int x_min = _width;
+    int x_min = this->getWidth();
     int x_max = 0;
     cout<<endl;
-    for (int h = 0; h < this->_height; ++h) {
-        for (int w = 0; w < this->_width; ++w) {
+    for (int h = 0; h < this->_height; ++h) 
+    {
+        for (int w = 0; w < this->_width; ++w) 
+        {
             //cout<<w<<" "<<h<<" | "<<endl;
             
-            if ((this->_pixels.at(w + h * this->_width)).isWhite() == false) {
+            if ((this->_pixels.at(w + h * this->_width)).isWhite() == false) 
+            {
                 //cout<< "Pixel [ "<< w <<" "<< h <<" ] not white."  <<endl;   
                 cout << "x";
                 //traitement gauche droite
-                if (y_min >= h) {
+                if (y_min >= h) 
+                {
+                    cout<< "ymin en cours : "<<y_min<<endl;
                     y_min = h;
+                    cout<< "ymin apres : "<<y_min<<endl;
                 }
-                if (x_min >= w) {
+               
+                if (x_min > w) 
+                {
+                    cout<< "xmin en cours : "<<x_min<<endl;
                     x_min = w;
+                    cout<< "xmin apres : "<<x_min<<endl;
                 }
 
                 //traitement haut bas
 
-                if (y_max >= h) {
+                if (y_max >= h) 
+                {
                     y_min = h;
                 }
-                if (x_min >= w) {
-                    x_min = w;
+                if (x_max < w) 
+                {
+                    x_max = w;
                 }
 
 
-            } else {
+            } else 
+            {
                 cout << "o";
             }
         }
@@ -100,9 +125,11 @@ void Image::createMinimum() {
     int h_max = x_max + y_max * _width;
 
 
-    for (int h = h_min; h <= h_max; h += _width) {
+    for (int h = h_min; h <= h_max; h += _width) 
+    {
 
-        for (int w = 0; w <= x_max - x_min; ++w) {
+        for (int w = 0; w <= x_max - x_min; ++w) 
+        {
 
             this->_minimumPicture.push_back(this->_pixels.at(h + w));
 
@@ -110,6 +137,10 @@ void Image::createMinimum() {
     }
 
     this->_minimumWidth = x_max - x_min;
+    cout << "x_max" <<x_max<<endl;
+    cout <<"xmin" <<x_min<<endl;
+    cout <<"ymin" <<y_min<<endl;
+    cout <<"ymax : " <<y_max<<endl;
     this->_minimumHeight = y_max - y_min;
     this->x_center = this->_minimumWidth / 2;
     this->y_center = this->_minimumHeight / 2;
@@ -117,129 +148,28 @@ void Image::createMinimum() {
     this->firstXCoord();
 }
 
-void Image::firstXCoord() {
-
-
-    int i =0; 
-    while (!this->_minimumPicture.at(i).isWhite()) {
-        ++i;       
-    }
-    this->x_first = i;
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-/*
-void Image::Algo(const Image sprite) const 
+void Image::firstXCoord() 
 {
-    bool Occu[this->_l-sprite._l][this->_h-sprite._h];
-    Pixel null_pix(255, 255, 255);
-    int cmptOcc=0;
-    
-    for (int i=0; i<this->_l-sprite._l;i++)
+    int i =0; 
+    cout <<"avant white"<<endl;
+    cout <<"w : "<<this->_minimumWidth<<endl;
+    cout <<"h : "<<this->_minimumHeight<<endl;
+    while (!(this->_minimumPicture.at(i).isWhite())) 
     {
-        for (int j=0; j<this->_h-sprite._h; j++)
+        i++;       
+        cout <<"i :"<< i <<endl;
+        if (this->_minimumPicture.at(i).isWhite())
         {
-            Occu[i][j]=true;
-            for (int m=0; m<sprite._l; m++)
-            {
-                for (int n=0; n<sprite._h; n++)
-                {
-                    if (sprite._data[m+n*sprite._l]/=null_pix) 
-                    {
-                        if (this->_data[i+m+(j+n)*this->_l]/=sprite._data[m+n*sprite._l])
-                        {
-//                              cout << "taille l-> " << this->_l<< endl;
-                             cout << "i+m" <<i+m << endl;
-                              cout << "j+n"<<j+n << endl;
-                            Occu[i][j]=false;
-                        }
-                    }
-                }
-                 cout << "sorti 2for2" << endl;
-            }
-             cout << "sorti 2for1" << endl;
-            if (Occu[i][j])
-            {
-                cmptOcc++;
-                cout <<"DETECTION "<<cmptOcc<<" : X :"<<i<<"  Y : "<<j << endl;
-            }
+            cout <<"white true"<<endl;
+        }
+        else
+        {
+               cout <<"white false"<<endl;
         }
     }
+    cout<<"fin du while"<<endl;
+    this->x_first = i;
+    cout <<"fin"<<endl;
 }
- */
-// void Image::Load(char* filepath) {
-//         Pixel pix(0,0,0);
-//         FILE* fichier;
-//         fichier = fopen(filepath, "r");
-// 
-//         if (fichier != NULL)
-//         {
-//             int ret = 0;
-//             char rets[3];
-//             fscanf(fichier, "%s", rets);
-//             long compteur = 1;
-// 
-// 
-//             if(strcmp(rets, "P3") == 0)
-//             {
-//                 fscanf(fichier, "%d", &ret);
-// 
-//                 while(ret!=EOF)
-//                 {
-//                     if(ret == '#')
-//                     {
-//                         goToEndOfLine(fichier);
-//                     }
-//                     else
-//                     {
-//                         if(compteur == 1)
-//                             this->l = ret;
-// 
-//                         else if (compteur == 2)
-//                         {
-//                             this->h = ret;
-// 
-//                             this->data = (Pixel *) malloc(sizeof(Pixel) * this->l * this->h);
-//                         }
-//                         else if(compteur == 3) {}
-// 
-//                         else
-//                         {
-//                             for(long i=0; i < this->l; i++)
-//                             {
-//                                 for(long j=0; j < this->h; j++)
-//                                 {
-//                                     int tmp[3];
-//                                     fscanf(fichier, "%d %d %d", &tmp[0], &tmp[1], &tmp[2]);
-//                                     pix.setr(tmp[0]);
-//                                     pix.setg(tmp[1]);
-//                                     pix.setb(tmp[2]);
-//                                     ret = pix.getr();
-//                                     this->data[i+j*this->l] = pix;
-//                                 }
-//                             }
-// 
-// 
-//                         }
-// 
-//                         fscanf(fichier, "%d", &ret);
-//                         compteur++;
-//                     }
-//                 }
-// 
-//             }
-// 
-//             fclose(fichier);
-//         }
-// }
+
+

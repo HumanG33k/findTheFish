@@ -1,5 +1,6 @@
 #include "pixel.h"
-
+#include <iostream> 
+using namespace std;
 Pixel::Pixel(const int r, const int g, const int b)
 {
     this->r=r;
@@ -7,7 +8,8 @@ Pixel::Pixel(const int r, const int g, const int b)
     this->b=b;
 }
 
-Pixel::~Pixel() {
+Pixel::~Pixel() 
+{
 }
 
 bool Pixel::operator !=(const Pixel &second) const 
@@ -34,22 +36,41 @@ bool Pixel::operator ==(const Pixel &second) const
     }
 }
 
-int Pixel::getr() const { return this->r;}
-
-int Pixel::getg() const { return this->g;}
-
-int Pixel::getb() const { return this->b;}
-
-void Pixel::setr(int in) { this->r=in;}
-
-void Pixel::setg(int in) { this->g=in;}
-
-void Pixel::setb(int in) { this->b=in;
+int Pixel::getr() const 
+{ 
+    return this->r;
 }
 
-bool Pixel::isWhite() {
+int Pixel::getg() const 
+{ 
+    return this->g;
+}
+
+int Pixel::getb() const 
+{ 
+    return this->b;
+}
+
+void Pixel::setr(int in) 
+{ 
+    this->r=in;
+}
+
+void Pixel::setg(int in) 
+{ 
+    this->g=in;
+}
+
+void Pixel::setb(int in) 
+{ 
+    this->b=in;
+}
+
+bool Pixel::isWhite() 
+{
     bool result = false;
-    if (this->r == 255 && this->g == 255 && this->b == 255 ){
+    if ((this->r == 255) && (this->g == 255) && (this->b == 255 ))
+    {
       result = true;  
     }
     

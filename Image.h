@@ -15,31 +15,22 @@ class Image
 {
     public:
         Image(PPMBitmap img, int l, int h,bool isSprite=false);
+        
         int getMinimumWidth();
         int getMinimumHeight();
         int getWidth();
         int getHeight();
         int getXFirst();
+        
+        //vecteur de pixels de l'image
         vector<Pixel> getPixels();
+        //vecteur de pixels du sprite réduit
         vector<Pixel> getMinimum();
-        
-        
-        //void Algo(const Image sprite) const;
-    //     void Load(char* filepath);
-    //     void goToEndOfLine(FILE *fichier)
-    //     {
-    //         int ret = 0;
-    //         if(fichier != NULL)
-    //         {
-    //             while(ret!=EOF && ret!=CR && ret!=LF) 
-    //             {
-    //                 ret = fgetc(fichier);
-    //             }
-    //         }
-    //     }
 
     private:
+        //permet de réduire le sprite pour enlever les bords blancs inutiles
         void createMinimum();
+        //une fois le sprite réduit, permet d'avoir la coordonnée du premier pixel non blanc
         void firstXCoord();
         
         PPMBitmap _img;
