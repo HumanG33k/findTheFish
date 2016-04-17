@@ -99,9 +99,9 @@ void Image::createMinimum()
 
                 //traitement haut bas
 
-                if (y_max >= h) 
+                if (y_max < h) 
                 {
-                    y_min = h;
+                    y_max = h;
                 }
                 if (x_max < w) 
                 {
@@ -154,7 +154,7 @@ void Image::firstXCoord()
     cout <<"avant white"<<endl;
     cout <<"w : "<<this->_minimumWidth<<endl;
     cout <<"h : "<<this->_minimumHeight<<endl;
-    while (!(this->_minimumPicture.at(i).isWhite())) 
+    while (this->_minimumPicture.at(i).isWhite())
     {
         i++;       
         cout <<"i :"<< i <<endl;
